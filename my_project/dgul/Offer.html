@@ -1,0 +1,38 @@
+{{ block title }}
+    提案
+{{ endblock }}
+{{ block content }}
+
+    {{ group.game_mode }}
+    {{ player.role }}
+
+    {{ formfields }}
+    {{ next_button }}
+
+{{ endblock }}
+
+
+{{ block title }}
+    金額の提案（あなたは提案者です）
+{{ endblock }}
+
+{{ block content }}
+    <p>あなたには原資として <strong>{{ C.ENDOWMENT }}円</strong> が与えられました。</p>
+
+    {{ if group.game_mode == 'dictator' }}
+        <div class="alert alert-info">
+            現在、<strong>【独裁者ゲーム】</strong>を行っています。<br>
+            あなたが決めた配分額がそのまま確定し、相手（応答者）に拒否権はありません。
+        </div>
+    {{ else }}
+        <div class="alert alert-warning">
+            現在、<strong>【最後通牒ゲーム】</strong>を行っています。<br>
+            あなたが決めた配分額に対して、相手（応答者）が「受け入れる」か「拒否する」かを選択します。<br>
+            拒否された場合、<strong>お互いの報酬は0円</strong>になります。
+        </div>
+    {{ endif }}
+
+    {{ formfields }}
+
+    {{ next_button }}
+{{ endblock }}

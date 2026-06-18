@@ -1,0 +1,10 @@
+{{ block title }}
+    Page title
+{{ endblock }}
+
+{{ block content }}
+    今のゲームは <strong>{{ group.game_mode }}</strong> です。<br>
+    あなたの役割は <strong>{{ player.role }}</strong> です。
+
+    {{ next_button }}
+{{ endblock }}

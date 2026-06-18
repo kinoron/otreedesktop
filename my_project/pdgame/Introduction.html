@@ -1,0 +1,208 @@
+{{ block title }}
+実験説明
+{{ endblock }}
+
+{{ block content }}
+
+<body>
+    <div id="page1" class = "page active">
+        <div class="box-011">
+            <p>
+            これから、他の参加者とペアになり、取引をしていただきます。
+            具体的には、選択肢Aと選択肢Bの二つのどちらか一方を、二人同時に選びます。
+            取引で得られる報酬は、あなたと相手のとった選択肢の組み合わせによって決まります。
+            </p>
+        </div>
+    </div>
+
+    <div id="page2" class="page">
+        <div class="box-011">
+            <p>
+                取引は、以下の表に基づいて行われます。
+                例えば、あなたがA、相手がBを選んだ場合、あなたが得られる報酬は400ptです。
+            </p>
+        </div>
+        <div>
+            <table class="matrix-table">
+                <tr>
+                <th colspan="2" rowspan="2" style="border: none;"></th> <th colspan="2">あなたの選択</th>
+                </tr>
+                <tr>
+                <td>A</td>
+                <td>B</td>
+                </tr>
+                <tr>
+                <td rowspan="2">相手の選択</td>
+                <td>A</td>
+                <td>
+                    あなたの報酬: 800pt<br>
+                    相手の報酬: 800pt
+                </td>
+                <td>
+                    あなたの報酬: 900pt<br>
+                    相手の報酬: 400pt
+                </td>
+                </tr>
+                <tr>
+                <td>B</td>
+                <td class="highlight-pink">
+                    あなたの報酬: 400pt<br>
+                    相手の報酬: 900pt
+                </td>
+                <td>
+                    あなたの報酬: 500pt<br>
+                    相手の報酬: 500pt
+                </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="page3" class="page">
+        <div class="box-011">
+            <p>
+                それでは、本番に進みます。
+                本番に進むと、前のページに戻ることができません。
+            </p>
+        </div>
+    </div>
+    
+    <div id="buttonbox">
+        <div>
+            <button type="button" id="prevBtn" class="button-1" onclick="changePage(-1)">
+                前へ</button>
+        </div>
+        <div>
+            <button type="button" id="forwBtn" class="button-1" onclick="changePage(1)">
+                次へ</button></div>
+        <div id="nextButtonContainer" style="display: none;">
+            {{ next_button }}
+        </div>
+    </div>
+
+</body>
+
+<style>
+
+.box-011 {
+    position: relative;
+    max-width: 600px;
+    margin: 1.9em auto 0;
+    padding: 1em 1.5em;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+}
+
+.box-011 span {
+    position: absolute;
+    top: -1.9em;
+    left: -2px;
+    padding: .2em .8em;
+    border-radius: 5px 5px 0 0;
+    background-color: #2589d0;
+    color: #fff;
+}
+
+.box-011 p {
+    margin: 0;
+    color: #333;
+}
+
+.button-1, .otree-btn-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    padding: .9em 2em;
+    border: 1px solid #2589d0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1em;
+}
+
+
+.matrix-table {
+      border-collapse: collapse; 
+      font-family: sans-serif;
+      font-weight: bold;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+    .matrix-table th, .matrix-table td {
+      border: 2px solid #000000; 
+      padding: 10px 20px;       
+      background-color: #ffffff; 
+    }
+
+    .highlight-pink {
+      background-color: #f1d7d7 !important;
+    }
+
+#buttonbox {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+}
+#nextButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    min-width: 250px;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+</style>
+
+<script>
+
+//初期設定
+let currentPage = 0;
+let pages = document.querySelectorAll(".page");
+
+//ボタンが押された時の処理
+function changePage(n) {
+    //ページが1枚も存在しない場合は処理をスキップ
+    if (pages.length === 0) return;
+
+    //現在地のページのactive属性を外す
+    pages[currentPage].classList.remove("active");
+
+    //現在地を移動先のページ番号に更新する
+    //関数の引数nを足す (前への時は+(-1)なので、ページ番号がひとつ小さくなる)
+    currentPage += n;
+    //もしこれ以上ページがないところに行こうとしたら、更新を取り消す
+    if (currentPage < 0) currentPage = 0;
+    if (currentPage >= pages.length) currentPage = pages.length - 1;
+
+    //現在地(移動先)のページにactive属性を追加する
+    pages[currentPage].classList.add("active");
+
+
+    //ボタン表示の制御
+    //要素の取得
+    const forwBtn= document.getElementById("forwBtn");
+    const nextButtonContainer = document.getElementById("nextButtonContainer");
+    
+    //もし最後のページまで来たら、「次へ」ボタンの代わりにotreeのデフォルトボタンを表示する
+    if (currentPage === 2) {
+        // page3の時
+        if (forwBtn) forwBtn.style.display = "none";
+        if (nextButtonContainer) nextButtonContainer.style.display = "flex";
+    } else {
+        // page1, page2の時
+        if (forwBtn) forwBtn.style.display = "flex";
+        if (nextButtonContainer) nextButtonContainer.style.display = "none";
+    }
+}
+
+</script>
+
+
+{{ endblock }}
+

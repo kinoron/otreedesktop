@@ -1,0 +1,116 @@
+<body>
+    <div id="page1" class = "page active">
+        <div class="box-021">
+            これから、他の参加者とペアになり、取引をしていただきます。
+            具体的には、選択肢Aと選択肢Bの二つのどちらか一方を、二人同時に選びます。
+            取引で得られる報酬は、あなたと相手のとった選択肢の組み合わせによって決まります。
+        </div>
+    </div>
+
+    <div id="page2" class = "page">
+        <div class="box-021">
+            取引は、以下の表に基づいて行われます。
+            例えば、あなたがA、相手がBを選んだ場合、あなたが得られる報酬は400ptです。
+        </div>
+        <div>
+            <table class="matrix-table">
+                <tr>
+                <th colspan="2" rowspan="2" style="border: none;"></th> <th colspan="2">あなたの選択</th>
+                </tr>
+                <tr>
+                <td>A</td>
+                <td>B</td>
+                </tr>
+                <tr>
+                <td rowspan="2">相手の選択</td>
+                <td>A</td>
+                <td>
+                    あなたの報酬: 800pt<br>
+                    相手の報酬: 800pt
+                </td>
+                <td>
+                    あなたの報酬: 900pt<br>
+                    相手の報酬: 400pt
+                </td>
+                </tr>
+                <tr>
+                <td>B</td>
+                <td class="highlight-pink">
+                    あなたの報酬: 400pt<br>
+                    相手の報酬: 900pt
+                </td>
+                <td>
+                    あなたの報酬: 500pt<br>
+                    相手の報酬: 500pt
+                </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="page3" class = "page">
+        {{ next_button }}
+    </div>
+    <div >
+        <button type="button" id="prevBtn" class="button-36" onclick="changePage(-1)">前へ</button>
+        <button type="button" id="nextBtn" class="button-36" onclick="changePage(1)">次へ</button>
+    </div>
+    
+</body>
+
+<style>
+    .box-021 {
+    position: relative;
+    max-width: 600px;
+    margin: 1em auto;
+    padding: 1em 1.5em;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+    color: #333;
+}
+.button-36 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    margin-top: 200px;
+    margin-right: 0;
+    margin-left: auto;
+    padding: .9em 2em;
+    border: 1px solid #2589d0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1em;
+}
+
+.button-36:hover {
+    border: none;
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: 600;
+}
+
+
+.page { display: none; }
+.page.active { display: block; }
+
+</style>
+
+<script>
+let currentPage = 0;
+let pages = document.querySelectorAll(".page");
+
+function changePage(n) {
+    if (pages.length === 0) return;
+
+    pages[currentPage].classList.remove("active");
+    currentPage += n;
+
+    if (currentPage < 0) currentPage = 0;
+    if (currentPage >= pages.length) currentPage = pages.length - 1;
+
+    pages[currentPage].classList.add("active");
+}
+
+</script>

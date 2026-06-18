@@ -1,0 +1,113 @@
+{{ block title }}
+    本番
+{{ endblock }}
+
+{{ block content }}
+<body>
+    <div class="box-011">
+        <p>
+            取引本番です。<br>
+            あなたの選択を選んでください。
+        </p>
+    </div>
+    <div>
+        <table class="matrix-table">
+            <tr>
+            <th colspan="2" rowspan="2" style="border: none;"></th> <th colspan="2">あなたの選択</th>
+            </tr>
+            <tr>
+            <td>A</td>
+            <td>B</td>
+            </tr>
+            <tr>
+            <td rowspan="2">相手の選択</td>
+            <td>A</td>
+            <td>
+                あなたの報酬: 800pt<br>
+                相手の報酬: 800pt
+            </td>
+            <td>
+                あなたの報酬: 900pt<br>
+                相手の報酬: 400pt
+            </td>
+            </tr>
+            <tr>
+            <td>B</td>
+            <td>
+                あなたの報酬: 400pt<br>
+                相手の報酬: 900pt
+            </td>
+            <td>
+                あなたの報酬: 500pt<br>
+                相手の報酬: 500pt
+            </td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <p>
+            あなたの選択を選んでください。
+        </p>
+    </div>
+    <div id="buttonbox">
+        <button name="choice" value="True" class="button-1">A</button>
+        <button name="choice" value="False" class="button-1">B</button>
+    </div>
+</body>
+
+
+<style>
+.box-011 {
+    position: relative;
+    max-width: 600px;
+    margin: 1.9em auto 0;
+    padding: 1em 1.5em;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+}
+
+.box-011 p {
+    margin: 0;
+    color: #333;
+}
+
+
+
+
+.matrix-table {
+      border-collapse: collapse; 
+      font-family: sans-serif;
+      font-weight: bold;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+.matrix-table th, .matrix-table td {
+      border: 2px solid #000000; 
+      padding: 10px 20px;       
+      background-color: #ffffff; 
+    }
+
+.button-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    padding: .9em 2em;
+    border: 1px solid #2589d0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1em;
+}
+
+#buttonbox {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+</style>
+
+{{ endblock }}

@@ -1,0 +1,19 @@
+{{ block title }}
+    提案への回答（あなたは応答者です）
+{{ endblock }}
+
+{{ block content }}
+    <p>現在、<strong>【最後通牒ゲーム】</strong>を行っています。</p>
+    
+    <div class="card my-3">
+        <div class="card-body">
+            提案者は、原資 {{ C.ENDOWMENT }}円 のうち、あなたに <strong>{{ group.offered_amount }}円</strong> を分けると提案しました。<br>
+        </div>
+    </div>
+
+    <p>この提案を受け入れますか？拒否した場合、お互いの報酬は0円になります。</p>
+
+    {{ formfields }}
+
+    {{ next_button }}
+{{ endblock }}

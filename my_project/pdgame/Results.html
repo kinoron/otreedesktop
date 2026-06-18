@@ -1,0 +1,114 @@
+{{ block title }}
+    PDゲームの結果
+{{ endblock }}
+
+{{ block content }}
+
+<body>
+    <div class="box-011">
+        <p>
+        あなたの選択は{% if player.choice %}A{% else %}B{% endif %}でした。<br>
+        相手の選択は{% if other_player.choice %}A{% else %}B{% endif %}でした。<br>
+        その結果、あなたの得点は {{ player.payoff }} 、相手の得点は {{ other_player.payoff }} でした。
+        </p>
+    </div>
+
+    <div>
+        <table class="matrix-table">
+            <tr>
+            <th colspan="2" rowspan="2" style="border: none;"></th> <th colspan="2">あなたの選択</th>
+            </tr>
+            <tr>
+            <td>A</td>
+            <td>B</td>
+            </tr>
+            <tr>
+            <td rowspan="2">相手の選択</td>
+            <td>A</td>
+            <td {% if highlight_cell_11 %}class="highlight-cell"{% endif %}>
+                あなたの報酬: 800pt<br>
+                相手の報酬: 800pt
+            </td>
+            <td {% if highlight_cell_12 %}class="highlight-cell"{% endif %}>
+                あなたの報酬: 900pt<br>
+                相手の報酬: 400pt
+            </td>
+            </tr>
+            <tr>
+            <td>B</td>
+            <td {% if highlight_cell_21 %}class="highlight-cell"{% endif %}>
+                あなたの報酬: 400pt<br>
+                相手の報酬: 900pt
+            </td>
+            <td {% if highlight_cell_22 %}class="highlight-cell"{% endif %}>
+                あなたの報酬: 500pt<br>
+                相手の報酬: 500pt
+            </td>
+            </tr>
+        </table>
+    </div>
+        {{ next_button }}
+</body>
+
+<style>
+.box-011 {
+    position: relative;
+    max-width: 600px;
+    margin: 1.9em auto 0;
+    padding: 1em 1.5em;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+}
+
+.box-011 span {
+    position: absolute;
+    top: -1.9em;
+    left: -2px;
+    padding: .2em .8em;
+    border-radius: 5px 5px 0 0;
+    background-color: #2589d0;
+    color: #fff;
+}
+
+.box-011 p {
+    margin: 0;
+    color: #333;
+}
+.otree-btn-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    padding: .9em 2em;
+    border: 1px solid #2589d0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1em;
+    margin-left: auto;
+}
+
+
+.matrix-table {
+      border-collapse: collapse; 
+      font-family: sans-serif;
+      font-weight: bold;
+      text-align: center;
+      margin: 0 auto;
+    }
+
+.matrix-table th, .matrix-table td {
+      border: 2px solid #000000; 
+      padding: 10px 20px;       
+      background-color: #ffffff; 
+    }
+
+.highlight-cell {
+      background-color: #bae9f2 !important;
+      font-weight: bold;
+    }
+</style>
+
+{{ endblock }}
+
+
