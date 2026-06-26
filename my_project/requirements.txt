@@ -7,6 +7,8 @@ idna==3.18
 itsdangerous==1.1.0
 MarkupSafe==1.1.1
 otree==6.0.15
+psycopg==3.2.9
+psycopg2-binary
 python-multipart==0.0.5
 requests==2.34.2
 six==1.17.0
