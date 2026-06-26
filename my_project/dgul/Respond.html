@@ -1,19 +1,80 @@
 {{ block title }}
-    提案への回答（あなたは応答者です）
+    提案への回答（あなたはもらう人です）
 {{ endblock }}
 
 {{ block content }}
-    <p>現在、<strong>【最後通牒ゲーム】</strong>を行っています。</p>
     
-    <div class="card my-3">
-        <div class="card-body">
-            提案者は、原資 {{ C.ENDOWMENT }}円 のうち、あなたに <strong>{{ group.offered_amount }}円</strong> を分けると提案しました。<br>
+    <div>
+        <div class="box-011">
+            提案者は、元手 {{ C.ENDOWMENT }} のうち、あなたに <span style="font-weight: bold; font-size: x-large;"> {{ group.offered_amount }}円 </span>
+            を分けると提案しました。<br>
         </div>
     </div>
 
-    <p>この提案を受け入れますか？拒否した場合、お互いの報酬は0円になります。</p>
+    <div style="margin-top: 50px; margin-left: 20px;">
+    <p>この提案を受け入れますか？ <br>
+        あなたが拒否した場合、お互いの追加報酬は0円になります。
+    </p>
+    </div>
 
-    {{ formfields }}
+    <div>
+        <p style="margin-top: 50px; margin-left: 20px; font-size: x-large;">
+            この提案を
+        </p>
+    </div>
 
-    {{ next_button }}
+
+    <div id="buttonbox">
+        <button name="accepted" value="True" class="button-1">受け入れる</button>
+        <button name="accepted" value="False" class="button-1">拒否する</button>
+    </div>
+
+<style>
+
+    body {
+        font-family: "Meiryo", sans-serif;
+        font-size: larger;
+    }
+
+    .box-011 {
+    position: relative;
+    max-width: 1000px;
+    margin: 1.9em auto 0;
+    padding: 2em 1.5em;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+}
+
+.box-011 p {
+    margin: 0;
+    color: #333;
+}
+    .button-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    padding: .9em 2em;
+    border: 1.5px solid #2589d0;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #2589d0;
+    font-size: 1.1em;
+}
+
+.button-1:hover {
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: bold;
+}
+
+#buttonbox {
+    display: flex;
+    margin-top: 50px;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 5rem;
+}
+</style>
+
 {{ endblock }}

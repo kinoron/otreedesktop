@@ -1,12 +1,55 @@
 {{ block title }}
-    Page title
+    分配の結果
 {{ endblock }}
 
 {{ block content }}
-    あなたの役割は <strong>{{ role }}</strong> でした。<br>
-    あなたは {{ player.payoff }}円 を獲得しました。
+    <div class="box-011">
+    分配の結果、あなたは<span style="font-weight: bold; font-size: x-large;">{{ player.payoff }}を獲得</span> しました。<br>
+    あなたの役割は <span style="font-weight: bold; font-size: x-large;">
+        {{ if player.role == "Allocator" }}
+            送る人
+        {{ else }}
+            もらう人
+        {{ endif }}
+    </span> でした。<br>
+    </div>
 
-    {{ next_button }}
+
+    <p style="margin-top: 50px; margin-left: 20px;">
+        下のボタンを押して、アンケートに進んでください。
+    </p>
+    <button class="btn btn-success px-4 fw-bold">アンケートに進む</button>
+
+<style>
+    body {
+        font-family: "Meiryo", sans-serif;
+        font-size: larger;
+    }
+        .box-011 {
+    position: relative;
+    max-width: 1000px;
+    margin: 1.9em auto 0;
+    padding: 2em 1.5em;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+}
+
+.box-011 p {
+    margin: 0;
+    color: #333;
+}
+        .btn-success {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 250px;
+        padding: .9em 2em;
+        border-radius: 5px;
+        font-size: 1em;
+        margin-left: auto;
+        margin-top: 50px; /* ボタンとの間に少し隙間をあける */
+    }
+</style>
 {{ endblock }}
 
 

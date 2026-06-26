@@ -33,7 +33,7 @@ class Group(BaseGroup):
     )
 
     offered_amount = models.IntegerField(
-        label="相手にいくら分け合いますか？",
+        label="",
         min=0, max=C.ENDOWMENT
     )
 
@@ -48,7 +48,15 @@ class Group(BaseGroup):
 
 
 class Player(BasePlayer):
-    pass
+    # 理解度クイズの回答を保存する変数
+    quiz_role = models.StringField(
+        label="あなたの今回の役割として正しいものを選んでください：",
+        choices=[
+            ['send', '送る人'],
+            ['receive', 'もらう人']
+        ],
+        widget=widgets.RadioSelect  # ラジオボタン形式にする
+    )
 
 
 
@@ -82,9 +90,22 @@ def set_payoffs(group: Group):
             p2.payoff = 0
 
 # PAGES
-class RoleIntroduction(Page):
-    """役割とゲームルールの説明画面"""
+class Consent(Page):
     pass
+
+# --- ページクラスの中 ---
+class Introduction(Page):
+    form_model = 'player'
+    form_fields = ['quiz_role']
+
+    @staticmethod
+    def error_message(player: Player, values):
+        # 正解の定義：IDが1なら'send'、それ以外なら'receive'
+        correct_answer = 'send' if player.role == C.ALLOCATOR_ROLE else 'receive'
+        
+        # 参加者の入力(values['quiz_role'])が正解と違う場合、エラー文を返す
+        if values['quiz_role'] != correct_answer:
+            return '回答が間違っています。もう一度説明を確認して回答し直してください。'
 
 
 class Offer(Page):
@@ -100,7 +121,7 @@ class Offer(Page):
 
 class OfferWaitPage(WaitPage):
     title_text = "待機中"
-    body_text = "提案者が金額を考えています。しばらくお待ちください。"
+    body_text = "送る人が金額を考えています。しばらくお待ちください。"
     @staticmethod
     def is_displayed(player: Player):
         # 応答者のみに表示
@@ -134,4 +155,4 @@ class Results(Page):
         }
 
 
-page_sequence = [RoleIntroduction, Offer, OfferWaitPage, Respond, ResultsWaitPage, Results]
+page_sequence = [Consent, Introduction, Offer, OfferWaitPage, Respond, ResultsWaitPage, Results]

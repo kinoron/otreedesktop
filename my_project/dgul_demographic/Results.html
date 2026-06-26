@@ -1,0 +1,52 @@
+{{ block title }}
+最終結果
+{{ endblock }}
+
+{{ block content }}
+<style>
+    body {
+        font-family: "Meiryo", sans-serif;
+        font-size: larger;
+    }
+    .result {
+        font-size: xx-large;
+        font-weight: 600;
+    }
+    .box {
+        padding: 0.5em 1em;
+        margin: 2em 0;
+        background: #FFF;
+        border: solid 3px #2589d0;
+        border-radius: 10px;
+    }
+    .box p {
+        margin: 0;
+        padding: 0;
+    }
+    #participation_code {
+        font-size: xxx-large;
+        font-weight: 600;
+    }
+</style>
+<body>
+    <p>すべての実験およびアンケートが終了しました。<br>
+        すべてを通じてあなたが得たのは、 
+        <span class="result"> {{totalpayoff_ingame}} </span> 
+        でした。<br><br>
+        よって、あなたには後日<span class="result">{{finalpay_inreal}}</span>が支払われます。<br>
+        <span style="font-size: medium;">
+            (最終支払額: 固定報酬 500円 + 取引結果に基づく変動報酬 {{totalpayoff_ingame}} = {{finalpay_inreal}})
+        </span>
+    </p>
+    <div class="box">
+        <p>
+            公式LINEのフォームから参加者コードを入力してください。<br>
+            あなたの参加者コード：<span id="participation_code">{{participant.code}}</span>
+        </p>
+        </div>
+    <p>
+        zoomから指示があるまで、この画面のままお待ちください。
+    </p>
+
+</body>
+{{ endblock }}

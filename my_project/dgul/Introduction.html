@@ -1,0 +1,252 @@
+{{ block title }}
+    実験手順の説明
+{{ endblock }}
+
+{{ block content }}
+<body>
+    <div class="slider-container">
+    
+    <div class="page active">
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide1.png' }}" alt="説明1" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide2.png' }}" alt="説明2" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide3.png' }}" alt="説明3" class="img-fluid">
+        </div>
+    </div>
+
+    <div class="page">
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide4.png' }}" alt="説明4" class="img-fluid">
+        </div>
+    </div>
+
+    <div id="conditional-slide" class="page"></div>
+
+    <div id="roledepend-slide" class="page"></div>
+
+    <div id="comprehension-slide" class="page">
+        <div class="quiz-slide-container">
+            <div class="card border-primary shadow-sm w-100" style="max-width: 600px;">
+                <div class="card-header bg-primary text-white fw-bold">
+                    <i class="fas fa-question-circle me-2"></i>理解度チェック
+                </div>
+                <div class="card-body bg-light text-start">
+                    {{ formfield 'quiz_role' }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="buttonbox">
+    <button type="button" id="prevBtn"  onclick="changePage(-1)">
+        前へ</button>
+
+    <span id="page-indicator">1 / 7</span>
+    
+    <button type="button" id="forwBtn"  onclick="changePage(1)">
+        次へ</button>
+    
+    <div id="nextButtonContainer" style="display: none;">
+        <button class="btn btn-success px-4 fw-bold">回答して実験を開始</button>
+    </div>
+</div>
+</body>
+
+
+
+<style>
+.slider-container {
+    width: 100%;
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.05);
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+
+/* 画像スライドとクイズスライドの「高さ」をここで統一させてガタつきを防ぐ */
+.slide-img-container, .quiz-slide-container {
+    width: 100%;
+    height: 450px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* クイズコンテナ専用の内側余白調整 */
+.quiz-slide-container {
+    padding: 20px;
+}
+
+.slide-img-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    user-select: none;
+}
+
+.buttonbox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+/* すべてのナビゲーション要素のサイズと高さをがっちり揃える */
+#prevBtn, #forwBtn, #otree-next-container button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 250px;
+    height: 50px; /* 高さを数値で固定してレイアウトブレを防ぐ */
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+#prevBtn, #forwBtn {
+    border: 1px solid #2589d0;
+    background-color: #fff;
+    color: #2589d0;
+}
+
+#prevBtn:hover, #forwBtn:hover {
+    background-color: #2589d0;
+    color: #fff;
+}
+
+/* oTreeのボタンは実験開始の合図として目立つ緑色（Bootstrapのbtn-success互換） */
+#nextButtonContainer button {
+    border: 1px solid #198754;
+    background-color: #198754;
+    color: #fff;
+    width: 250px;
+    height: 50px; /* 高さを数値で固定してレイアウトブレを防ぐ */
+}
+
+
+#page-indicator {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #495057;
+    background-color: #e9ecef;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+/* oTreeのデフォルトのエラーメッセージがクイズ上部に出た場合のスタイル調整 */
+.otree-form-errors {
+    margin-bottom: 15px;
+    font-size: 0.95rem;
+}
+</style>
+
+
+<script>
+// 1. oTreeから現在のグループのゲームモードを取得
+const gameMode = "{{ group.game_mode }}"; 
+const playerRole = "{{ player.role }}";
+
+// 全ページ要素の取得
+const pages = document.querySelectorAll('.page');
+
+// 【ポイント】oTreeのテンプレート構文でエラーの有無を判定し、初期ページを決定
+let currentPageIndex = {{ if form.errors }}pages.length - 1{{ else }}0{{ endif }};
+
+// 2. 5枚目のスライドに画像を注入
+const conditionalSlide = document.getElementById('conditional-slide');
+if (gameMode === 'dictator') {
+    conditionalSlide.innerHTML = `
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide5-dg.png' }}" alt="説明5" class="img-fluid">
+        </div>
+    `;
+} else {
+    conditionalSlide.innerHTML = `
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide5-ul.png' }}" alt="説明5" class="img-fluid">
+        </div>
+    `;
+}
+
+// 3. 6枚目のスライドに役割に応じた画像を注入
+const roleDependentSlide = document.getElementById('roledepend-slide');
+if (playerRole === 'Allocator') {
+    roleDependentSlide.innerHTML = `
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide6-allo.png' }}" alt="説明5: 提案者の役割" class="img-fluid">
+        </div>
+    `;
+} else if (playerRole === 'Responder') {
+    roleDependentSlide.innerHTML = `
+        <div class="slide-img-container">
+            <img src="{{ static 'dgul_introduction/slide6-resp.png' }}" alt="説明5: 応答者の役割" class="img-fluid">
+        </div>
+    `;
+}
+
+// 4. 紙芝居のスライド制御ロジック
+const prevBtn = document.getElementById('prevBtn');
+const forwBtn = document.getElementById('forwBtn');
+const pageIndicator = document.getElementById('page-indicator');
+const nextButtonContainer = document.getElementById('nextButtonContainer');
+
+function changePage(n) {
+    if (pages.length === 0) return;
+
+    // 現在地のページのactive属性を外す
+    pages.forEach(page => page.classList.remove("active"));
+
+    // 現在地を移動先のページ番号に更新する
+    currentPageIndex += n;
+    if (currentPageIndex < 0) currentPageIndex = 0;
+    if (currentPageIndex >= pages.length) currentPageIndex = pages.length - 1;
+
+    // 移動先のページにactive属性を追加
+    pages[currentPageIndex].classList.add("active");
+    pageIndicator.innerText = `${currentPageIndex + 1} / ${pages.length}`;
+    
+    // ボタン表示の制御
+    if (currentPageIndex === pages.length - 1) {
+        forwBtn.style.display = 'none';              
+        nextButtonContainer.style.display = 'block';  
+    } else {
+        forwBtn.style.display = 'inline-block';
+        nextButtonContainer.style.display = 'none';
+    }
+}
+
+// 【初期化】読み込み時に現在の currentPageIndex に応じた表示（ボタンやインジケータ）に更新する
+changePage(0);
+</script>
+
+{{ endblock }}

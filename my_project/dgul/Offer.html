@@ -1,38 +1,126 @@
 {{ block title }}
-    提案
-{{ endblock }}
-{{ block content }}
-
-    {{ group.game_mode }}
-    {{ player.role }}
-
-    {{ formfields }}
-    {{ next_button }}
-
-{{ endblock }}
-
-
-{{ block title }}
-    金額の提案（あなたは提案者です）
+    金額の提案（あなたは送る人です）
 {{ endblock }}
 
 {{ block content }}
-    <p>あなたには原資として <strong>{{ C.ENDOWMENT }}円</strong> が与えられました。</p>
+    <div class="box-011">
 
     {{ if group.game_mode == 'dictator' }}
-        <div class="alert alert-info">
-            現在、<strong>【独裁者ゲーム】</strong>を行っています。<br>
-            あなたが決めた配分額がそのまま確定し、相手（応答者）に拒否権はありません。
+        <div>
+            <p>
+                あなたには500円が配られました。<br>
+                あなたの役割は「送る人」です。<br>
+                あなたが決めた分け方が、そのまま2人の追加の報酬になります。
+            </p>
+
+
         </div>
     {{ else }}
-        <div class="alert alert-warning">
-            現在、<strong>【最後通牒ゲーム】</strong>を行っています。<br>
-            あなたが決めた配分額に対して、相手（応答者）が「受け入れる」か「拒否する」かを選択します。<br>
-            拒否された場合、<strong>お互いの報酬は0円</strong>になります。
+        <div>
+            <p>
+                あなたには500円が配られました。<br>
+                あなたの役割は<span style="font-weight: bold; font-size: x-large;">
+                「送る人」</span>です。<br>
+                あなたが決めた分け方に対して、相手(もらう人)は受け入れるか拒否するかを選びます。<br>
+                相手が拒否した場合、お互いの追加報酬は0円になります。
+            </p>
         </div>
     {{ endif }}
+    </div>
+    <div style="margin-top: 50px; margin-left: 20px">
+        <p>
+            相手にいくら送るか決めてください。
+        </p>
+    </div>
 
-    {{ formfields }}
+    <div style="margin-top: 30px; margin-left: 20px; font-size: x-large;">
+        <label style="display: inline-block; width: 800px;">
+        500円のうち、
+        <input class="textbox-1" type="number" name="offered_amount" min="0" max="500" required>
+        円を相手に送る。
+        </label>
 
-    {{ next_button }}
+    </div>
+
+
+    <div id="next">
+        {{ next_button }}
+    </div>
+
+<style>
+    body {
+        font-family: "Meiryo", sans-serif;
+        font-size: larger;
+    }
+
+    .box-011 {
+    position: relative;
+    max-width: 1000px;
+    margin: 1.9em auto 0;
+    padding: 2em 1.5em;
+    border: 2px solid #2589d0;
+    border-radius: 3px;
+}
+
+.box-011 p {
+    margin: 0;
+    color: #333;
+}
+.textbox-1-label,
+.textbox-1 {
+    color: #333;
+}
+
+.textbox-1-label {
+    margin-bottom: 5px;
+    font-size: .9em;
+}
+
+.textbox-1 {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #969da3;
+    border-radius: 3px;
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+
+#next {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 100px;
+    }
+
+    .otree-btn-next {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    margin:0 auto;
+    padding: .9em 2em;
+    border: none;
+    border-radius: 5px;
+    background-color: #2589d0;
+    color: #fff;
+    font-weight: 600;
+    font-size: larger;
+    content: '次の取引に進む';
+}
+
+    .otree-btn-next::after {
+        transform: rotate(45deg);
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        border-top: 2px solid #fff;
+        border-right: 2px solid #fff;
+        content: '';
+    }
+
+    .otree-btn-next:hover {
+        background-color: #1579c0;
+    }
+</style>
+
 {{ endblock }}
