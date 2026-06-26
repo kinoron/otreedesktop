@@ -6,7 +6,8 @@ SESSION_CONFIGS = [
         name='dgul',
         display_name="Dictator Game with Ultimatum Game",
         app_sequence=['dgul', 'dgul_demographic',],
-        num_demo_participants=4,
+        num_demo_participants=30,
+        use_browser_bots=True,
     ),
     dict(
         name='pdgame',
