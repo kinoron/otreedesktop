@@ -133,13 +133,23 @@
     font-weight: bold;
 }
 
+/* ボタンが非活性のときの見た目 */
+#prevBtn:disabled {
+  border: 1px solid #cccccc;
+  background-color: #cccccc; /* グレーアウト */
+  color: #666666;
+  cursor: not-allowed; /* マウスカーソルを禁止マークにする */
+  opacity: 0.6; /* 半透明にする場合 */
+}
+
+
 #prevBtn, #forwBtn {
     border: 1px solid #2589d0;
     background-color: #fff;
     color: #2589d0;
 }
 
-#prevBtn:hover, #forwBtn:hover {
+#prevBtn:not(:disabled):hover, #forwBtn:hover {
     background-color: #2589d0;
     color: #fff;
 }
@@ -234,6 +244,12 @@ function changePage(n) {
     // 移動先のページにactive属性を追加
     pages[currentPageIndex].classList.add("active");
     pageIndicator.innerText = `${currentPageIndex + 1} / ${pages.length}`;
+
+    if (currentPageIndex === 0) {
+        prevBtn.disabled = true;
+    } else {
+        prevBtn.disabled = false;
+    }
     
     // ボタン表示の制御
     if (currentPageIndex === pages.length - 1) {
